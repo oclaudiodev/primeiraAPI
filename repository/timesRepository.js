@@ -70,3 +70,25 @@ export async function removerTime(id) {
 
   const [info] = await conection8.query(comando, [id]);
 }
+
+export async function consultarTime(id) {
+  const comando = `
+    SELECT *
+      FROM times_futebol
+     WHERE id = ? 
+  `
+
+  const [registros] = await conection8.query(comando, [id])
+  return registros[0];
+}
+
+export async function filtrarTime(nome) {
+  const comando = `
+    SELECT *
+      FROM times_futebol
+     WHERE nome like ? 
+  `
+
+  const [registros] = await conection8.query(comando, ['%'+nome+'%'])
+  return registros;
+}

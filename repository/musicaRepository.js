@@ -64,3 +64,25 @@ export async function listarMsc() {
     
       const [info] = await conection5.query(comando, [id]);
     }
+
+    export async function consultarMusica(id) {
+      const comando = `
+        SELECT *
+          FROM gramy
+         WHERE idmusica = ? 
+      `
+    
+      const [registros] = await conection5.query(comando, [id])
+      return registros[0];
+    }
+    
+    export async function filtrarMusica(nome) {
+      const comando = `
+        SELECT *
+          FROM gramy
+         WHERE nm_musica like ? 
+      `
+    
+      const [registros] = await conection5.query(comando, ['%'+nome+'%'])
+      return registros;
+    }

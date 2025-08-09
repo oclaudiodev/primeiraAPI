@@ -53,3 +53,25 @@ export async function removerAluno(id) {
   
     const [info] = await conection2.query(comando, [id]);
   }
+
+  export async function consultarAluno(id) {
+    const comando = `
+      SELECT *
+        FROM alunos
+       WHERE id_aluno = ? 
+    `
+  
+    const [registros] = await conection2.query(comando, [id])
+    return registros[0];
+  }
+  
+  export async function filtrarAluno(nome) {
+    const comando = `
+      SELECT *
+        FROM alunos
+       WHERE nome like ? 
+    `
+  
+    const [registros] = await conection2.query(comando, ['%'+nome+'%'])
+    return registros;
+  }

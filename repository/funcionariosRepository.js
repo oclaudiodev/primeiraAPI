@@ -56,3 +56,25 @@ export async function removerEmp(id) {
   
     const [info] = await conection6.query(comando, [id]);
   }
+
+  export async function consultarEmp(id) {
+    const comando = `
+      SELECT *
+        FROM funcionarios
+       WHERE id = ? 
+    `
+  
+    const [registros] = await conection6.query(comando, [id])
+    return registros[0];
+  }
+  
+  export async function filtrarEmp(nome) {
+    const comando = `
+      SELECT *
+        FROM funcionarios
+       WHERE empresa like ? 
+    `
+  
+    const [registros] = await conection6.query(comando, ['%'+nome+'%'])
+    return registros;
+  }

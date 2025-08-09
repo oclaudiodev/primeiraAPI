@@ -53,3 +53,25 @@ export async function listarProd() {
     
       const [info] = await conection9.query(comando, [id]);
     }
+
+    export async function consultarProd(id) {
+      const comando = `
+        SELECT *
+          FROM merc
+         WHERE id_produto = ? 
+      `
+    
+      const [registros] = await conection9.query(comando, [id])
+      return registros[0];
+    }
+    
+    export async function filtrarProd(nome) {
+      const comando = `
+        SELECT *
+          FROM merc
+         WHERE nm_produto like ? 
+      `
+    
+      const [registros] = await conection9.query(comando, ['%'+nome+'%'])
+      return registros;
+    }

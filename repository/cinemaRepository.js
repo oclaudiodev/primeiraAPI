@@ -34,7 +34,7 @@ export async function listarFilmes() {
                 dt_horafilme = ?,
                 bt_filmebom=?,
                 qtd_ingressos=?
-       WHERE id_carro = ?;
+       WHERE id_cinema = ?;
     `
   
     const [info] = await conection10.query(comando, [
@@ -50,8 +50,30 @@ export async function listarFilmes() {
   export async function removerFilme(id) {
     const comando = `
       DELETE FROM cinems
-            WHERE id_carro = ?
+            WHERE id_cinema = ?
     `
   
     const [info] = await conection10.query(comando, [id]);
+  }
+
+  export async function consultarFilme(id) {
+    const comando = `
+      SELECT *
+        FROM cinems
+       WHERE id_cinema = ? 
+    `
+  
+    const [registros] = await conection10.query(comando, [id])
+    return registros[0];
+  }
+  
+  export async function filtrarFilme(nome) {
+    const comando = `
+      SELECT *
+        FROM cinems
+       WHERE nm_filme like ? 
+    `
+  
+    const [registros] = await conection10.query(comando, ['%'+nome+'%'])
+    return registros;
   }

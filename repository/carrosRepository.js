@@ -59,3 +59,25 @@ export async function removerCarro(id) {
   
     const [info] = await conection3.query(comando, [id]);
   }
+
+  export async function consultarCarro(id) {
+    const comando = `
+      SELECT *
+        FROM cars
+       WHERE id_carro = ? 
+    `
+  
+    const [registros] = await conection3.query(comando, [id])
+    return registros[0];
+  }
+  
+  export async function filtrarCarro(nome) {
+    const comando = `
+      SELECT *
+        FROM cars
+       WHERE ds_carro like ? 
+    `
+  
+    const [registros] = await conection3.query(comando, ['%'+nome+'%'])
+    return registros;
+  }

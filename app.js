@@ -1,13 +1,13 @@
-import { listarCursos, inserirCurso, removerCurso,alterarCurso } from './repository/cursoRepository.js';
-import { listarTime, inserirTime, removerTime,alterarTime } from './repository/timesRepository.js';
-import { listarMsc,inserirMsc, removerMusica, alterarMusica } from'./repository/musicaRepository.js';
-import { listarEmp,inserirEmp, alterarEmp, removerEmp } from './repository/funcionariosRepository.js';
-import { listarAlunos,inserirAluno, alterarAluno, removerAluno } from './repository/alunosRepository.js';
-import { listarCarros,inserirCarros, removerCarro, alterarCarro } from './repository/carrosRepository.js';
-import { listarFilmes,inserirFilme, removerFilme, alterarFilme } from './repository/cinemaRepository.js';
-import { alterarEst, inserirEstados, listarEstado, removerEst } from './repository/estadosRepository.js';
-import { inserirProd, listarProd, removerProd,alterarProd } from './repository/mercadinRepository.js';
-import { inserirAnime,listarAnimes } from './repository/animesRepository.js';
+import { listarCursos, inserirCurso, removerCurso,alterarCurso, consultarCursos,filtrarPorNome } from './repository/cursoRepository.js';
+import { listarTime, inserirTime, removerTime,alterarTime,filtrarTime,consultarTime } from './repository/timesRepository.js';
+import { listarMsc,inserirMsc, removerMusica, alterarMusica, filtrarMusica, consultarMusica } from'./repository/musicaRepository.js';
+import { listarEmp,inserirEmp, alterarEmp, removerEmp, consultarEmp, filtrarEmp } from './repository/funcionariosRepository.js';
+import { listarAlunos,inserirAluno, alterarAluno, removerAluno, filtrarAluno,consultarAluno } from './repository/alunosRepository.js';
+import { listarCarros,inserirCarros, removerCarro, alterarCarro, consultarCarro, filtrarCarro } from './repository/carrosRepository.js';
+import { listarFilmes,inserirFilme, removerFilme, alterarFilme, consultarFilme, filtrarFilme } from './repository/cinemaRepository.js';
+import { alterarEst, filtrarEst, inserirEstados, listarEstado, removerEst,consultarEst} from './repository/estadosRepository.js';
+import { inserirProd, listarProd, removerProd,alterarProd, consultarProd, filtrarProd } from './repository/mercadinRepository.js';
+import { filtrarAnime, inserirAnime,listarAnimes,alterarAnime,consultarAnime,removerAnime } from './repository/animesRepository.js';
 
 import express from 'express'
 
@@ -40,6 +40,19 @@ api.delete('/curso/:id', async (req, resp) => {
     await removerCurso(id);
     resp.send();
 })
+
+api.get('/curso/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarPorNome(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/curso/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarCursos(id);
+    resp.send(registros);
+  })
   
 
 api.get('/times_futebol', async(req,resp)=>{
@@ -68,6 +81,19 @@ api.delete('/times_futebol/:id', async (req, resp) => {
     await removerTime(id);
     resp.send();
 })
+
+api.get('/times_futebol/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarTime(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/times_futebol/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarTime(id);
+    resp.send(registros);
+  })
   
 
 api.get('/gramy', async(req,resp)=>{
@@ -81,6 +107,7 @@ api.post('/gramy', async (req,resp)=>{
     let id = await inserirMsc(novaMsc);
     resp.send({novoId:id});
 })
+
 
 api.put('/gramy/:id', async (req, resp) => {
     let id = Number(req.params.id);
@@ -96,6 +123,19 @@ api.delete('/gramy/:id', async (req, resp) => {
     await removerMusica(id);
     resp.send();
 })
+
+api.get('/gramy/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarMusica(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/gramy/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarMusica(id);
+    resp.send(registros);
+  })
 
 api.get('/fun', async(req,resp)=>{
     let registros = await listarEmp();
@@ -124,6 +164,19 @@ api.delete('/fun/:id', async (req, resp) => {
     resp.send();
 })
 
+api.get('/fun/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarEmp(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/fun/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarEmp(id);
+    resp.send(registros);
+  })
+
 api.get('/estados', async(req,resp)=>{
     let registros = await listarEstado();
     resp.send(registros);
@@ -150,6 +203,19 @@ api.delete('/estados/:id', async (req, resp) => {
     await removerEst(id);
     resp.send();
 })
+
+api.get('/estados/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarEst(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/estados/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarEst(id);
+    resp.send(registros);
+  })
 
 api.get('/alunos', async(req,resp)=>{
     let registros = await listarAlunos();
@@ -178,6 +244,20 @@ api.delete('/alunos/:id', async (req, resp) => {
     resp.send();
 })
 
+api.get('/alunos/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarAluno(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/alunos/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarAluno(id);
+    resp.send(registros);
+  })
+
+
 api.get('/cars', async(req,resp)=>{
     let registros = await listarCarros();
     resp.send(registros);
@@ -204,6 +284,20 @@ api.delete('/cars/:id', async (req, resp) => {
     await removerCarro(id);
     resp.send();
 })
+
+api.get('/cars/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarCarro(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/cars/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarCarro(id);
+    resp.send(registros);
+  })
+
 
 api.get('/cinems', async(req,resp)=>{
     let registros = await listarFilmes();
@@ -232,6 +326,19 @@ api.delete('/cinems/:id', async (req, resp) => {
     resp.send();
 })
 
+api.get('/cinems/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarFilme(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/cinems/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarFilme(id);
+    resp.send(registros);
+  })
+
 api.get('/merc', async(req,resp)=>{
     let registros = await listarProd();
     resp.send(registros);
@@ -259,6 +366,19 @@ api.delete('/merc/:id', async (req, resp) => {
     resp.send();
 })
 
+api.get('/merc/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarProd(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/merc/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarProd(id);
+    resp.send(registros);
+  })
+
 api.get('/animes', async(req,resp)=>{
     let registros = await listarAnimes();
     resp.send(registros);
@@ -284,6 +404,20 @@ api.delete('/animes/:id', async (req, resp) => {
     await removerAnime(id);
     resp.send();
 })
+
+api.get('/animes/filtro', async (req, resp) => {
+    let nome = req.query.nome;
+    let registros = await filtrarAnime(nome);
+    resp.send(registros);
+  })
+  
+  
+  api.get('/animes/:id', async (req, resp) => {
+    let id = Number(req.params.id);
+    let registros = await consultarAnime(id);
+    resp.send(registros);
+  })
+
 
 
 

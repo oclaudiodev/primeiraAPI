@@ -50,3 +50,25 @@ export async function removerCurso(id) {
 
   const [info] = await conection4.query(comando, [id]);
 }
+
+export async function consultarCursos(id) {
+  const comando = `
+    SELECT *
+      FROM curso
+     WHERE id = ? 
+  `
+
+  const [registros] = await conection4.query(comando, [id])
+  return registros[0];
+}
+
+export async function filtrarPorNome(nome) {
+  const comando = `
+    SELECT *
+      FROM curso
+     WHERE nome like ? 
+  `
+
+  const [registros] = await conection4.query(comando, ['%'+nome+'%'])
+  return registros;
+}

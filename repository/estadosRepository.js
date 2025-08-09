@@ -58,3 +58,26 @@ export async function removerEst(id) {
 
   const [info] = await conection7.query(comando, [id]);
 }
+
+
+export async function consultarEst(id) {
+  const comando = `
+    SELECT *
+      FROM estados
+     WHERE id_estado = ? 
+  `
+
+  const [registros] = await conection7.query(comando, [id])
+  return registros[0];
+}
+
+export async function filtrarEst(nome) {
+  const comando = `
+    SELECT *
+      FROM estados
+     WHERE nm_estado like ? 
+  `
+
+  const [registros] = await conection7.query(comando, ['%'+nome+'%'])
+  return registros;
+}

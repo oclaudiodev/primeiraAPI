@@ -50,3 +50,34 @@ export async function alterarAnime(id,novosDados) {
     id
   ])
 }   
+
+export async function removerAnime(id) {
+  const comando = `
+    DELETE FROM animes
+          WHERE id = ?
+  `
+
+  const [info] = await conection.query(comando, [id]);
+}
+
+export async function consultarAnime(id) {
+  const comando = `
+    SELECT *
+      FROM animes
+     WHERE id = ? 
+  `
+
+  const [registros] = await conection.query(comando, [id])
+  return registros[0];
+}
+
+export async function filtrarAnime(nome) {
+  const comando = `
+    SELECT *
+      FROM animes
+     WHERE nome like ? 
+  `
+
+  const [registros] = await conection.query(comando, ['%'+nome+'%'])
+  return registros;
+}
