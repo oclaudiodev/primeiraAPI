@@ -27,3 +27,26 @@ export async function inserirAnime(novoAnime) {
     novoAnime.avaliacao
   return info.insertId;
 }
+
+export async function alterarAnime(id,novosDados) {
+  const comando = `
+    UPDATE animes
+       SET nome= ?,
+            genero = ?,
+              episodios = ?,
+                ano_lancamento = ?,
+              estudio = ?,
+            avaliacao = ?
+     WHERE id = ?;
+  `
+
+  const [info] = await conection.query(comando, [
+    novosDados.nome,
+    novosDados.genero,
+    novosDados.episodios,
+    novosDados.ano_lancamento,
+    novosDados.estudio,
+    novosDados.avaliacao,
+    id
+  ])
+}   

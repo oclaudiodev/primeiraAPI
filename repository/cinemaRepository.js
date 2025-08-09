@@ -25,3 +25,33 @@ export async function listarFilmes() {
     novoFilme.qtd_ingressos
     return info.insertId;
   }
+
+  export async function alterarFilme(id,novosDados) {
+    const comando = `
+      UPDATE cinems
+         SET nm_filme= ?,
+              dt_filme = ?,
+                dt_horafilme = ?,
+                bt_filmebom=?,
+                qtd_ingressos=?
+       WHERE id_carro = ?;
+    `
+  
+    const [info] = await conection10.query(comando, [
+      novosDados.nm_filme,
+      novosDados.dt_filme,
+      novosDados.dt_horafilme,
+      novosDados.bt_filmebom,
+      novosDados.qtd_ingressos,
+      id
+    ])
+  }   
+  
+  export async function removerFilme(id) {
+    const comando = `
+      DELETE FROM cinems
+            WHERE id_carro = ?
+    `
+  
+    const [info] = await conection10.query(comando, [id]);
+  }

@@ -23,12 +23,50 @@ export async function inserirTime(novoTime) {
   const [info] = await conection8.query(comando, [novoTime.nome, novoTime.cidade,novoTime.estado,novoTime.pais,novoTime.ano_fundacao,novoTime.estadio,novoTime.capacidade_estadio,novoTime.tecnico,novoTime.liga])
     novoTime.nome,
     novoTime.cidade,
-    novoTime.estado
-    novoTime.pais
-    novoTime.ano_fundacao
-    novoTime.estadio
-    novoTime.capacidade_estadio
-    novoTime.tecnico
+    novoTime.estado,
+    novoTime.pais,
+    novoTime.ano_fundacao,
+    novoTime.estadio,
+    novoTime.capacidade_estadio,
+    novoTime.tecnico,
     novoTime.liga
   return info.insertId;
+}
+
+export async function alterarTime(id,novosDados) {
+  const comando = `
+    UPDATE times_futebol
+       SET nome= ?,
+            cidade = ?,
+              estado = ?,
+              pais = ?,
+              ano_fundacao = ?,
+              estadio = ?,
+              capacidade_estadio = ?,
+              tecnico=?,
+              liga=?
+     WHERE id = ?;
+  `
+
+  const [info] = await conection8.query(comando, [
+    novosDados.nome,
+    novosDados.cidade,
+    novosDados.estado,
+    novosDados.pais,
+    novosDados.ano_fundacao,
+    novosDados.estadio,
+    novosDados.capacidade_estadio,
+    novosDados.tecnico,
+    novosDados.liga,
+    id
+  ])
+}   
+
+export async function removerTime(id) {
+  const comando = `
+    DELETE FROM times_futebol
+          WHERE id = ?
+  `
+
+  const [info] = await conection8.query(comando, [id]);
 }

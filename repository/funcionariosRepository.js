@@ -26,3 +26,33 @@ export async function inserirEmp(novaEmp) {
   novaEmp.férias
   return info.insertId;
 }
+
+export async function alterarEmp(id,novosDados) {
+  const comando = `
+    UPDATE funcionarios
+       SET empresa= ?,
+            setor = ?,
+              salario_medio = ?,
+                colaboradores = ?,
+                férias = ?
+     WHERE id = ?;
+  `
+
+  const [info] = await conection6.query(comando, [
+    novosDados.empresa,
+    novosDados.setor,
+    novosDados.salario_medio,
+    novosDados.colaboradores,
+    novosDados.férias,
+    id
+  ])
+}   
+
+export async function removerEmp(id) {
+    const comando = `
+      DELETE FROM funcionarios
+            WHERE id = ?
+    `
+  
+    const [info] = await conection6.query(comando, [id]);
+  }

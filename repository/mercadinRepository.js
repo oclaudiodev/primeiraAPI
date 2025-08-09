@@ -25,3 +25,31 @@ export async function listarProd() {
     novoProd.bt_fazfalta
     return info.insertId;
   }
+
+  export async function alterarProd(id_produto,novosDados) {
+    const comando = `
+      UPDATE merc
+         SET nm_produto= ?,
+              vl_produto = ?,
+                vl_media = ?,
+                  gt_gostadisso = ?
+       WHERE id_produto = ?;
+    `
+  
+    const [info] = await conection9.query(comando, [
+      novosDados.nm_produto,
+      novosDados.vl_produto,
+      novosDados.vl_media,
+      novosDados.gt_gostadisso,
+      id_produto
+    ])
+  }   
+  
+  export async function removerProd(id) {
+      const comando = `
+        DELETE FROM merc
+              WHERE id_produto = ?
+      `
+    
+      const [info] = await conection9.query(comando, [id]);
+    }

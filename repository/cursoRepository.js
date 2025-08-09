@@ -24,3 +24,29 @@ export async function inserirCurso(novoCurso) {
     novoCurso.area
   return info.insertId;
 }
+
+export async function alterarCurso(id,novosDados) {
+  const comando = `
+    UPDATE curso
+       SET nome= ?,
+            carga_horaria = ?,
+              area = ?
+     WHERE id = ?;
+  `
+
+  const [info] = await conection4.query(comando, [
+    novosDados.nome,
+    novosDados.carga_horaria,
+    novosDados.area,
+    id
+  ])
+}   
+
+export async function removerCurso(id) {
+  const comando = `
+    DELETE FROM curso
+          WHERE id = ?
+  `
+
+  const [info] = await conection4.query(comando, [id]);
+}

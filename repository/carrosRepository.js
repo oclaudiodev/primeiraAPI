@@ -27,3 +27,35 @@ export async function inserirCarros(novoCarro) {
     novoCarro.dt_inclusao
   return info.insertId;
 }
+
+export async function alterarCarro(id_carro,novosDados) {
+  const comando = `
+    UPDATE cars
+       SET ds_carro= ?,
+            ds_modelo = ?,
+              nr_ano = ?,
+                vl_preco = ?,
+              img_carro = ?,
+            dt_inclusao = ?
+     WHERE id_carro = ?;
+  `
+
+  const [info] = await conection3.query(comando, [
+    novosDados.ds_carro,
+    novosDados.ds_modelo,
+    novosDados.nr_ano,
+    novosDados.vl_preco,
+    novosDados.img_carro,
+    novosDados.dt_inclusao,
+    id_carro
+  ])
+}   
+
+export async function removerCarro(id) {
+    const comando = `
+      DELETE FROM cars
+            WHERE id_carro = ?
+    `
+  
+    const [info] = await conection3.query(comando, [id]);
+  }

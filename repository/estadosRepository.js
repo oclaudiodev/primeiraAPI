@@ -28,3 +28,33 @@ export async function inserirEstados(novoEstado) {
   novoEstado.cpt_estado
   return info.insertId;
 }
+
+export async function alterarEst(id,novosDados) {
+  const comando = `
+    UPDATE estados
+       SET nm_estado= ?,
+            bt_locaisturisticos = ?,
+              nm_regiao = ?,
+                bt_tropical = ?,
+                cpt_estado = ?
+     WHERE id_estado = ?;
+  `
+
+  const [info] = await conection7.query(comando, [
+    novosDados.nm_estado,
+    novosDados.bt_locaisturisticos,
+    novosDados.nm_regiao,
+    novosDados.bt_tropical,
+    novosDados.cpt_estado,
+    id
+  ])
+}  
+
+export async function removerEst(id) {
+  const comando = `
+    DELETE FROM estados
+          WHERE id_estado = ?
+  `
+
+  const [info] = await conection7.query(comando, [id]);
+}

@@ -25,3 +25,31 @@ export async function inserirAluno(novoAluno) {
     novoAluno.email
   return info.insertId;
 }
+
+export async function alterarAluno(id_aluno,novosDados) {
+  const comando = `
+    UPDATE alunos
+       SET nome= ?,
+            matricula = ?,
+              curso = ?,
+                email = ?
+     WHERE id_aluno = ?;
+  `
+
+  const [info] = await conection2.query(comando, [
+    novosDados.nome,
+    novosDados.matricula,
+    novosDados.curso,
+    novosDados.email,
+    id_aluno
+  ])
+}   
+
+export async function removerAluno(id) {
+    const comando = `
+      DELETE FROM alunos
+            WHERE id_aluno = ?
+    `
+  
+    const [info] = await conection2.query(comando, [id]);
+  }
